@@ -125,7 +125,7 @@ function TimeAndLocation({ launch }) {
           </Box>
         </StatLabel>
         <Tooltip label={formatDateTime(launch.launch_date_local)}>
-          <span>
+          <span tabIndex="0">
             <StatNumber fontSize={["md", "xl"]}>
               {formatDateTimeLocal(launch.launch_date_local)}
             </StatNumber>
