@@ -1,30 +1,31 @@
 import React from "react";
-import { useParams, Link as RouterLink } from "react-router-dom";
+import { Layers, MapPin, Navigation, Watch } from "react-feather";
+import { Link as RouterLink, useParams } from "react-router-dom";
 import { format as timeAgo } from "timeago.js";
-import { Watch, MapPin, Navigation, Layers } from "react-feather";
 import {
+  AspectRatioBox,
+  Badge,
+  Box,
   Flex,
   Heading,
-  Badge,
-  Stat,
-  StatLabel,
-  StatNumber,
-  StatHelpText,
-  SimpleGrid,
-  Box,
-  Text,
-  Spinner,
   Image,
   Link,
+  SimpleGrid,
+  Spinner,
   Stack,
-  AspectRatioBox,
+  Stat,
   StatGroup,
+  StatHelpText,
+  StatLabel,
+  StatNumber,
+  Text,
+  Tooltip,
 } from "@chakra-ui/core";
 
-import { useSpaceX } from "../utils/use-space-x";
-import { formatDateTime } from "../utils/format-date";
-import Error from "./error";
 import Breadcrumbs from "./breadcrumbs";
+import Error from "./error";
+import { formatDateTime, formatDateTimeLocal } from "../utils/format-date";
+import { useSpaceX } from "../utils/use-space-x";
 
 export default function Launch() {
   let { launchId } = useParams();
@@ -123,9 +124,13 @@ function TimeAndLocation({ launch }) {
             Launch Date
           </Box>
         </StatLabel>
-        <StatNumber fontSize={["md", "xl"]}>
-          {formatDateTime(launch.launch_date_local)}
-        </StatNumber>
+        <Tooltip label={formatDateTime(launch.launch_date_local)}>
+          <span tabIndex="0">
+            <StatNumber fontSize={["md", "xl"]}>
+              {formatDateTimeLocal(launch.launch_date_local)}
+            </StatNumber>
+          </span>
+        </Tooltip>
         <StatHelpText>{timeAgo(launch.launch_date_utc)}</StatHelpText>
       </Stat>
       <Stat>
