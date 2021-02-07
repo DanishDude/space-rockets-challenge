@@ -7,6 +7,7 @@ import { useSpaceXPaginated } from "../utils/use-space-x";
 import { formatDate } from "../utils/format-date";
 import Error from "./error";
 import Breadcrumbs from "./breadcrumbs";
+import LikeIcon from "./like-icon";
 import LoadMoreButton from "./load-more-button";
 import FavoritesContext from "../context/favorites-context";
 
@@ -21,7 +22,6 @@ export default function Launches() {
       sort: "launch_date_utc",
     }
   );
-  // console.log(data, error);
   return (
     <div>
       <Breadcrumbs
@@ -47,7 +47,13 @@ export default function Launches() {
 }
 
 export function LaunchItem({ launch }) {
-  const { likeLaunch, unlikeLaunch } = React.useContext(FavoritesContext);
+  const { likeLaunch, state, unlikeLaunch } = React.useContext(
+    FavoritesContext
+  );
+  const isLiked = state.favoriteLaunches
+    .map((launch) => launch.flight_number)
+    .includes(launch.flight_number);
+
   return (
     <Box
       boxShadow="md"
@@ -56,14 +62,6 @@ export function LaunchItem({ launch }) {
       overflow="hidden"
       position="relative"
     >
-      <button
-        style={{ margin: 5, padding: 10, border: "1px solid black" }}
-        onClick={() => {
-          likeLaunch(launch);
-        }}
-      >
-        Like Me
-      </button>
       <Box as={Link} to={`/launches/${launch.flight_number.toString()}`}>
         <Image
           src={
@@ -88,7 +86,7 @@ export function LaunchItem({ launch }) {
         />
 
         <Box p="6">
-          <Box d="flex" alignItems="baseline">
+          <Box d="flex" alignItems="baseline" position="relative">
             {launch.launch_success ? (
               <Badge px="2" variant="solid" variantColor="green">
                 Successful
@@ -127,6 +125,19 @@ export function LaunchItem({ launch }) {
           </Flex>
         </Box>
       </Box>
+      <LikeIcon
+        style={{
+          fill: `${isLiked ? "yellow" : ""}`,
+          color: `${isLiked ? "" : "gray"}`,
+        }}
+        position="absolute"
+        bottom={5}
+        right={5}
+        size={6}
+        isLiked={isLiked}
+        like={() => likeLaunch(launch)}
+        unlike={() => unlikeLaunch(launch.flight_number)}
+      />
     </Box>
   );
 }

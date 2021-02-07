@@ -8,6 +8,7 @@ import Home from "./home";
 import LaunchPads from "./launch-pads";
 import LaunchPad from "./launch-pad";
 import FavoritesContext from "../context/favorites-context";
+import FavoritesDrawer from "./favorites-drawer";
 
 export default function App() {
   const { state } = React.useContext(FavoritesContext);
@@ -15,11 +16,12 @@ export default function App() {
     <div>
       <NavBar />
       <Button
-        style={{ position: "absolute", top: 15, right: 150 }}
+        style={{ position: "absolute", top: 15, right: 155 }}
         onClick={() => console.log(state)}
       >
         Log State
       </Button>
+      <FavoritesDrawer />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/launches" element={<Launches />} />
@@ -35,6 +37,7 @@ function NavBar() {
   return (
     <Flex
       as="nav"
+      position="relative"
       align="center"
       justify="space-between"
       wrap="wrap"
