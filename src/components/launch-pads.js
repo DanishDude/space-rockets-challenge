@@ -2,8 +2,10 @@ import React from "react";
 import { Badge, Box, SimpleGrid, Text } from "@chakra-ui/core";
 import { Link } from "react-router-dom";
 
-import Error from "./error";
 import Breadcrumbs from "./breadcrumbs";
+import Error from "./error";
+import FavoritesContext from "../context/favorites-context";
+import LikeIcon from "./like-icon";
 import LoadMoreButton from "./load-more-button";
 import { useSpaceXPaginated } from "../utils/use-space-x";
 
@@ -42,53 +44,72 @@ export default function LaunchPads() {
 }
 
 export function LaunchPadItem({ launchPad }) {
+  const { likeLaunchPad, state, unlikeLaunchPad } = React.useContext(
+    FavoritesContext
+  );
+  const isLiked = state.favoriteLaunchPads
+    .map((launchPad) => launchPad.id)
+    .includes(launchPad.id);
   return (
     <Box
-      as={Link}
-      to={`/launch-pads/${launchPad.site_id}`}
       boxShadow="md"
       borderWidth="1px"
       rounded="lg"
       overflow="hidden"
       position="relative"
     >
-      <Box p="6">
-        <Box d="flex" alignItems="baseline">
-          {launchPad.status === "active" ? (
-            <Badge px="2" variant="solid" variantColor="green">
-              Active
-            </Badge>
-          ) : (
-            <Badge px="2" variant="solid" variantColor="red">
-              Retired
-            </Badge>
-          )}
-          <Box
-            color="gray.500"
-            fontWeight="semibold"
-            letterSpacing="wide"
-            fontSize="xs"
-            textTransform="uppercase"
-            ml="2"
-          >
-            {launchPad.attempted_launches} attempted &bull;{" "}
-            {launchPad.successful_launches} succeeded
+      <Box as={Link} to={`/launch-pads/${launchPad.site_id}`}>
+        <Box p="6">
+          <Box d="flex" alignItems="baseline">
+            {launchPad.status === "active" ? (
+              <Badge px="2" variant="solid" variantColor="green">
+                Active
+              </Badge>
+            ) : (
+              <Badge px="2" variant="solid" variantColor="red">
+                Retired
+              </Badge>
+            )}
+            <Box
+              color="gray.500"
+              fontWeight="semibold"
+              letterSpacing="wide"
+              fontSize="xs"
+              textTransform="uppercase"
+              ml="2"
+            >
+              {launchPad.attempted_launches} attempted &bull;{" "}
+              {launchPad.successful_launches} succeeded
+            </Box>
           </Box>
-        </Box>
 
-        <Box
-          mt="1"
-          fontWeight="semibold"
-          as="h4"
-          lineHeight="tight"
-          isTruncated
-        >
-          {launchPad.name}
+          <Box
+            mt="1"
+            fontWeight="semibold"
+            as="h4"
+            lineHeight="tight"
+            isTruncated
+          >
+            {launchPad.name}
+          </Box>
+          <Text color="gray.500" fontSize="sm">
+            {launchPad.vehicles_launched.join(", ")}
+          </Text>
         </Box>
-        <Text color="gray.500" fontSize="sm">
-          {launchPad.vehicles_launched.join(", ")}
-        </Text>
       </Box>
+      <LikeIcon
+        style={{
+          fill: `${isLiked ? "yellow" : ""}`,
+          color: `${isLiked ? "" : "gray"}`,
+        }}
+        position="absolute"
+        bottom={5}
+        right={5}
+        size={6}
+        isLiked={isLiked}
+        like={() => likeLaunchPad(launchPad)}
+        unlike={() => unlikeLaunchPad(launchPad.id)}
+      />
     </Box>
   );
 }

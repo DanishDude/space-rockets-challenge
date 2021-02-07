@@ -18,8 +18,10 @@ import {
 } from "@chakra-ui/core";
 
 import { useSpaceX } from "../utils/use-space-x";
-import Error from "./error";
 import Breadcrumbs from "./breadcrumbs";
+import Error from "./error";
+import FavoritesContext from "../context/favorites-context";
+import LikeIcon from "./like-icon";
 import { LaunchItem } from "./launches";
 
 export default function LaunchPad() {
@@ -68,6 +70,12 @@ const randomColor = (start = 200, end = 250) =>
   `hsl(${start + end * Math.random()}, 80%, 90%)`;
 
 function Header({ launchPad }) {
+  const { state, likeLaunchPad, unlikeLaunchPad } = React.useContext(
+    FavoritesContext
+  );
+  const isLiked = state.favoriteLaunchPads
+    .map((launchPad) => launchPad.id)
+    .includes(launchPad.id);
   return (
     <Flex
       background={`linear-gradient(${randomColor()}, ${randomColor()})`}
@@ -81,6 +89,20 @@ function Header({ launchPad }) {
       alignItems="flex-end"
       justifyContent="space-between"
     >
+      <LikeIcon
+        style={{
+          fill: `${isLiked ? "yellow" : "white"}`,
+          color: `${isLiked ? "" : "gray"}`,
+        }}
+        position="absolute"
+        top={5}
+        right={5}
+        w={8}
+        h={8}
+        isLiked={isLiked}
+        like={() => likeLaunchPad(launchPad)}
+        unlike={() => unlikeLaunchPad(launchPad.id)}
+      />
       <Heading
         color="gray.900"
         display="inline"

@@ -5,16 +5,28 @@ import {
   favoritesReducer,
   LIKE_LAUNCH,
   LIKE_LAUNCH_PAD,
+  LOAD_LAUNCH_LIKES,
+  LOAD_LAUNCH_PAD_LIKES,
   UNLIKE_LAUNCH,
   UNLIKE_LAUNCH_PAD,
 } from "./favorites-reducer";
 
 export function StateContext({ children }) {
-  React.useReducer();
   const [state, dispatch] = React.useReducer(favoritesReducer, {
     favoriteLaunches: [],
     favoriteLaunchPads: [],
   });
+
+  React.useEffect(() => {
+    if (localStorage.getItem("favoriteLaunches")) {
+      loadLaunchLikes(JSON.parse(localStorage.getItem("favoriteLaunches")));
+    }
+    if (localStorage.getItem("favoriteLaunchPads")) {
+      loadLaunchPadLikes(
+        JSON.parse(localStorage.getItem("favoriteLaunchPads"))
+      );
+    }
+  }, []);
 
   function likeLaunch(launch) {
     dispatch({ type: LIKE_LAUNCH, launch });
@@ -30,6 +42,14 @@ export function StateContext({ children }) {
 
   function unlikeLaunchPad(id) {
     dispatch({ type: UNLIKE_LAUNCH_PAD, id });
+  }
+
+  function loadLaunchLikes(launches) {
+    dispatch({ type: LOAD_LAUNCH_LIKES, launches });
+  }
+
+  function loadLaunchPadLikes(launchPads) {
+    dispatch({ type: LOAD_LAUNCH_PAD_LIKES, launchPads });
   }
 
   return (

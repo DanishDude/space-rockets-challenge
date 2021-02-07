@@ -15,13 +15,13 @@ import { Star } from "react-feather";
 
 import FavoritesContext from "../context/favorites-context";
 import { LaunchItem } from "./launches";
+import { LaunchPadItem } from "./launch-pads";
 
 export default function FavoritesDrawer() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
   const { state } = React.useContext(FavoritesContext);
   const { favoriteLaunches, favoriteLaunchPads } = state;
-  const count = favoriteLaunches.length + favoriteLaunchPads.length;
 
   return (
     <>
@@ -52,9 +52,7 @@ export default function FavoritesDrawer() {
 
             <DrawerBody>
               {!favoriteLaunches.length && !favoriteLaunchPads.length ? (
-                <Text>
-                  Your favorite Launches and Launch Pads will appear here
-                </Text>
+                <Text>Stared Launches and Launch Pads will appear here</Text>
               ) : (
                 <SimpleGrid columns={1} spacing={10}>
                   {favoriteLaunches.length
@@ -62,6 +60,15 @@ export default function FavoritesDrawer() {
                         <LaunchItem
                           launch={launch}
                           key={launch.flight_number}
+                        />
+                      ))
+                    : undefined}
+
+                  {favoriteLaunchPads.length
+                    ? favoriteLaunchPads.map((launchPad) => (
+                        <LaunchPadItem
+                          launchPad={launchPad}
+                          key={launchPad.id}
                         />
                       ))
                     : undefined}

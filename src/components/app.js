@@ -16,6 +16,12 @@ export default function App() {
     <div>
       <NavBar />
       <Button
+        style={{ position: "absolute", top: 15, right: 270 }}
+        onClick={() => localStorage.clear()}
+      >
+        Clear LS
+      </Button>
+      <Button
         style={{ position: "absolute", top: 15, right: 155 }}
         onClick={() => console.log(state)}
       >

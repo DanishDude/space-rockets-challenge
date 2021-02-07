@@ -4,7 +4,6 @@ import { Star } from "react-feather";
 
 export default function LikeIcon(props) {
   const { isLiked, like, unlike } = props;
-  console.log(props);
   return (
     <IconButton
       bg=""
