@@ -54,6 +54,10 @@ export function LaunchItem({ launch }) {
     .map((launch) => launch.flight_number)
     .includes(launch.flight_number);
 
+  // React.useEffect(() => {
+  //   likeLaunch(launch);
+  // }, []);
+
   return (
     <Box
       boxShadow="md"
@@ -85,7 +89,7 @@ export function LaunchItem({ launch }) {
           objectPosition="bottom"
         />
 
-        <Box p="6">
+        <Box p="6" position="relative">
           <Box d="flex" alignItems="baseline" position="relative">
             {launch.launch_success ? (
               <Badge px="2" variant="solid" variantColor="green">
@@ -131,8 +135,8 @@ export function LaunchItem({ launch }) {
           color: `${isLiked ? "" : "gray"}`,
         }}
         position="absolute"
-        bottom={5}
-        right={5}
+        bottom="4.5rem"
+        right={3}
         size={6}
         isLiked={isLiked}
         like={() => likeLaunch(launch)}

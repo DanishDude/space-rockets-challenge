@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Badge,
   Button,
   Drawer,
   DrawerBody,
@@ -31,11 +32,25 @@ export default function FavoritesDrawer() {
         right={15}
         ref={btnRef}
         colorScheme="teal"
-        onClick={onOpen}
+        onClick={() => {
+          console.log(favoriteLaunches.length + favoriteLaunchPads.length);
+          onOpen();
+        }}
       >
         <Star style={{ marginRight: 5, fill: "yellow" }} />
         Favorites
+        <Badge
+          borderRadius="full"
+          variant="solid"
+          position="absolute"
+          top={-8}
+          right={-8}
+          height={4}
+        >
+          {favoriteLaunches.length + favoriteLaunchPads.length}
+        </Badge>
       </Button>
+
       <Drawer
         isOpen={isOpen}
         placement="right"
@@ -48,33 +63,53 @@ export default function FavoritesDrawer() {
         <DrawerOverlay>
           <DrawerContent>
             <DrawerCloseButton />
-            <DrawerHeader>Favorites</DrawerHeader>
+            {!favoriteLaunches.length && !favoriteLaunchPads.length ? (
+              <Text>Stared Launches and Launch Pads will appear here</Text>
+            ) : (
+              <>
+                {favoriteLaunches.length ? (
+                  <>
+                    <DrawerHeader>
+                      Launches ({favoriteLaunches.length})
+                    </DrawerHeader>
 
-            <DrawerBody>
-              {!favoriteLaunches.length && !favoriteLaunchPads.length ? (
-                <Text>Stared Launches and Launch Pads will appear here</Text>
-              ) : (
-                <SimpleGrid columns={1} spacing={10}>
-                  {favoriteLaunches.length
-                    ? favoriteLaunches.map((launch) => (
-                        <LaunchItem
-                          launch={launch}
-                          key={launch.flight_number}
-                        />
-                      ))
-                    : undefined}
+                    <DrawerBody>
+                      <SimpleGrid columns={1} spacing={10}>
+                        {favoriteLaunches.map((launch) => (
+                          <LaunchItem
+                            launch={launch}
+                            key={launch.flight_number}
+                          />
+                        ))}
+                      </SimpleGrid>
+                    </DrawerBody>
+                  </>
+                ) : (
+                  ""
+                )}
 
-                  {favoriteLaunchPads.length
-                    ? favoriteLaunchPads.map((launchPad) => (
-                        <LaunchPadItem
-                          launchPad={launchPad}
-                          key={launchPad.id}
-                        />
-                      ))
-                    : undefined}
-                </SimpleGrid>
-              )}
-            </DrawerBody>
+                {favoriteLaunchPads.length ? (
+                  <>
+                    <DrawerHeader>
+                      Launch Pads ({favoriteLaunchPads.length})
+                    </DrawerHeader>
+
+                    <DrawerBody>
+                      <SimpleGrid columns={1} spacing={10}>
+                        {favoriteLaunchPads.map((launchPad) => (
+                          <LaunchPadItem
+                            launchPad={launchPad}
+                            key={launchPad.id}
+                          />
+                        ))}
+                      </SimpleGrid>
+                    </DrawerBody>
+                  </>
+                ) : (
+                  ""
+                )}
+              </>
+            )}
           </DrawerContent>
         </DrawerOverlay>
       </Drawer>
