@@ -36,7 +36,7 @@ export default function FavoritesDrawer() {
       <Button
         position="absolute"
         top={15}
-        right={15}
+        right={29}
         paddingLeft="0.5rem"
         ref={btnRef}
         onClick={onOpen}
@@ -74,7 +74,12 @@ export default function FavoritesDrawer() {
           <DrawerContent>
             <DrawerCloseButton />
             <DrawerHeader>
-              Your Favorites ({launchCount + launchPadCount})
+              Your Favorites{" "}
+              {launchCount + launchPadCount ? (
+                <>({launchCount + launchPadCount})</>
+              ) : (
+                ""
+              )}{" "}
             </DrawerHeader>
             <DrawerBody>
               {!launchCount && !launchPadCount ? (

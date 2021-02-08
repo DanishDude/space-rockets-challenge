@@ -29,7 +29,6 @@ function NavBar() {
   return (
     <Flex
       as="nav"
-      position="relative"
       align="center"
       justify="space-between"
       wrap="wrap"
