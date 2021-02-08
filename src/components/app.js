@@ -7,11 +7,13 @@ import Launch from "./launch";
 import Home from "./home";
 import LaunchPads from "./launch-pads";
 import LaunchPad from "./launch-pad";
+import FavoritesDrawer from "./favorites-drawer";
 
 export default function App() {
   return (
     <div>
       <NavBar />
+      <FavoritesDrawer />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/launches" element={<Launches />} />

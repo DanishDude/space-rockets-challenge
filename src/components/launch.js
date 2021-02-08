@@ -24,6 +24,8 @@ import {
 
 import Breadcrumbs from "./breadcrumbs";
 import Error from "./error";
+import FavoritesContext from "../context/favorites-context";
+import LikeIcon from "./like-icon";
 import { formatDateTime, formatDateTimeLocal } from "../utils/format-date";
 import { useSpaceX } from "../utils/use-space-x";
 
@@ -64,6 +66,13 @@ export default function Launch() {
 }
 
 function Header({ launch }) {
+  const { state, likeLaunch, unlikeLaunch } = React.useContext(
+    FavoritesContext
+  );
+  const isLiked = state.favoriteLaunches
+    .map((launch) => launch.flight_number)
+    .includes(launch.flight_number);
+
   return (
     <Flex
       bgImage={`url(${launch.links.flickr_images[0]})`}
@@ -84,6 +93,16 @@ function Header({ launch }) {
         height={["85px", "150px"]}
         objectFit="contain"
         objectPosition="bottom"
+      />
+      <LikeIcon
+        position="absolute"
+        top={5}
+        right={5}
+        w={8}
+        h={8}
+        isLiked={isLiked}
+        like={() => likeLaunch(launch)}
+        unlike={() => unlikeLaunch(launch.flight_number)}
       />
       <Heading
         color="white"
