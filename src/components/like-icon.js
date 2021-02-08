@@ -6,10 +6,13 @@ export default function LikeIcon(props) {
   const { isLiked, like, unlike } = props;
   return (
     <IconButton
-      bg=""
       as={Star}
       variant="unstyled"
       onClick={() => (isLiked ? unlike() : like())}
+      style={{
+        fill: `${isLiked ? "yellow" : "white"}`,
+        color: `${isLiked ? "" : "gray"}`,
+      }}
       {...props}
     />
   );

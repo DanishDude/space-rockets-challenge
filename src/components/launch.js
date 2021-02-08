@@ -95,10 +95,6 @@ function Header({ launch }) {
         objectPosition="bottom"
       />
       <LikeIcon
-        style={{
-          fill: `${isLiked ? "yellow" : "white"}`,
-          color: `${isLiked ? "" : "gray"}`,
-        }}
         position="absolute"
         top={5}
         right={5}

@@ -54,10 +54,6 @@ export function LaunchItem({ launch }) {
     .map((launch) => launch.flight_number)
     .includes(launch.flight_number);
 
-  // React.useEffect(() => {
-  //   likeLaunch(launch);
-  // }, []);
-
   return (
     <Box
       boxShadow="md"
@@ -130,10 +126,6 @@ export function LaunchItem({ launch }) {
         </Box>
       </Box>
       <LikeIcon
-        style={{
-          fill: `${isLiked ? "yellow" : ""}`,
-          color: `${isLiked ? "" : "gray"}`,
-        }}
         position="absolute"
         bottom="4.5rem"
         right={3}

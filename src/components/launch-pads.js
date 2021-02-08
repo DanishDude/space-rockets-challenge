@@ -98,10 +98,6 @@ export function LaunchPadItem({ launchPad }) {
         </Box>
       </Box>
       <LikeIcon
-        style={{
-          fill: `${isLiked ? "yellow" : ""}`,
-          color: `${isLiked ? "" : "gray"}`,
-        }}
         position="absolute"
         bottom={5}
         right={5}

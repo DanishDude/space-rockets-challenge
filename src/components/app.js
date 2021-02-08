@@ -1,32 +1,18 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { Button, Flex, Text } from "@chakra-ui/core";
+import { Flex, Text } from "@chakra-ui/core";
 
 import Launches from "./launches";
 import Launch from "./launch";
 import Home from "./home";
 import LaunchPads from "./launch-pads";
 import LaunchPad from "./launch-pad";
-import FavoritesContext from "../context/favorites-context";
 import FavoritesDrawer from "./favorites-drawer";
 
 export default function App() {
-  const { state } = React.useContext(FavoritesContext);
   return (
     <div>
       <NavBar />
-      <Button
-        style={{ position: "absolute", top: 15, right: 270 }}
-        onClick={() => localStorage.clear()}
-      >
-        Clear LS
-      </Button>
-      <Button
-        style={{ position: "absolute", top: 15, right: 155 }}
-        onClick={() => console.log(state)}
-      >
-        Log State
-      </Button>
       <FavoritesDrawer />
       <Routes>
         <Route path="/" element={<Home />} />

@@ -1,6 +1,12 @@
 import React from "react";
 import {
+  Accordion,
+  AccordionItem,
+  AccordionHeader,
+  AccordionPanel,
+  AccordionIcon,
   Badge,
+  Box,
   Button,
   Drawer,
   DrawerBody,
@@ -22,7 +28,8 @@ export default function FavoritesDrawer() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
   const { state } = React.useContext(FavoritesContext);
-  const { favoriteLaunches, favoriteLaunchPads } = state;
+  const launchCount = state.favoriteLaunches?.length;
+  const launchPadCount = state.favoriteLaunchPads?.length;
 
   return (
     <>
@@ -32,26 +39,26 @@ export default function FavoritesDrawer() {
         right={15}
         paddingLeft="0.5rem"
         ref={btnRef}
-        colorScheme="teal"
-        onClick={() => {
-          console.log(favoriteLaunches.length + favoriteLaunchPads.length);
-          onOpen();
-        }}
+        onClick={onOpen}
       >
         <Star style={{ marginRight: 5, fill: "yellow" }} />
         Favorites
-        <Badge
-          variant="solid"
-          position="absolute"
-          top={-8}
-          right={-8}
-          height={4}
-          paddingX="0.3rem"
-          borderRadius="full"
-          variantColor="teal"
-        >
-          {favoriteLaunches.length + favoriteLaunchPads.length}
-        </Badge>
+        {launchCount + launchPadCount ? (
+          <Badge
+            variant="solid"
+            position="absolute"
+            top={-8}
+            right={-8}
+            height={4}
+            paddingX="0.3rem"
+            borderRadius="full"
+            variantColor="teal"
+          >
+            {launchCount + launchPadCount}
+          </Badge>
+        ) : (
+          ""
+        )}
       </Button>
 
       <Drawer
@@ -66,53 +73,66 @@ export default function FavoritesDrawer() {
         <DrawerOverlay>
           <DrawerContent>
             <DrawerCloseButton />
-            {!favoriteLaunches.length && !favoriteLaunchPads.length ? (
-              <Text>Stared Launches and Launch Pads will appear here</Text>
-            ) : (
-              <>
-                {favoriteLaunches.length ? (
-                  <>
-                    <DrawerHeader>
-                      Launches ({favoriteLaunches.length})
-                    </DrawerHeader>
+            <DrawerHeader>
+              Your Favorites ({launchCount + launchPadCount})
+            </DrawerHeader>
+            <DrawerBody>
+              {!launchCount && !launchPadCount ? (
+                <Text>Stared Launches and Launch Pads will appear here</Text>
+              ) : (
+                <Accordion defaultIndex={[0]} allowToggle>
+                  {launchCount ? (
+                    <AccordionItem>
+                      <h2>
+                        <AccordionHeader>
+                          <Box flex="1" textAlign="left">
+                            Launches ({launchCount})
+                          </Box>
+                          <AccordionIcon />
+                        </AccordionHeader>
+                      </h2>
+                      <AccordionPanel>
+                        <SimpleGrid columns={1} spacing={10}>
+                          {state.favoriteLaunches.map((launch) => (
+                            <LaunchItem
+                              launch={launch}
+                              key={launch.flight_number + 1000}
+                            />
+                          ))}
+                        </SimpleGrid>
+                      </AccordionPanel>
+                    </AccordionItem>
+                  ) : (
+                    ""
+                  )}
 
-                    <DrawerBody>
-                      <SimpleGrid columns={1} spacing={10}>
-                        {favoriteLaunches.map((launch) => (
-                          <LaunchItem
-                            launch={launch}
-                            key={launch.flight_number}
-                          />
-                        ))}
-                      </SimpleGrid>
-                    </DrawerBody>
-                  </>
-                ) : (
-                  ""
-                )}
-
-                {favoriteLaunchPads.length ? (
-                  <>
-                    <DrawerHeader>
-                      Launch Pads ({favoriteLaunchPads.length})
-                    </DrawerHeader>
-
-                    <DrawerBody>
-                      <SimpleGrid columns={1} spacing={10}>
-                        {favoriteLaunchPads.map((launchPad) => (
-                          <LaunchPadItem
-                            launchPad={launchPad}
-                            key={launchPad.id}
-                          />
-                        ))}
-                      </SimpleGrid>
-                    </DrawerBody>
-                  </>
-                ) : (
-                  ""
-                )}
-              </>
-            )}
+                  {launchPadCount ? (
+                    <AccordionItem>
+                      <h2>
+                        <AccordionHeader>
+                          <Box flex="1" textAlign="left">
+                            Launch Pads ({launchPadCount})
+                          </Box>
+                          <AccordionIcon />
+                        </AccordionHeader>
+                      </h2>
+                      <AccordionPanel>
+                        <SimpleGrid columns={1} spacing={10}>
+                          {state.favoriteLaunchPads.map((launchPad) => (
+                            <LaunchPadItem
+                              launchPad={launchPad}
+                              key={launchPad.id + 1000}
+                            />
+                          ))}
+                        </SimpleGrid>
+                      </AccordionPanel>
+                    </AccordionItem>
+                  ) : (
+                    ""
+                  )}
+                </Accordion>
+              )}
+            </DrawerBody>
           </DrawerContent>
         </DrawerOverlay>
       </Drawer>
