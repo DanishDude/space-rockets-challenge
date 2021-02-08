@@ -30,6 +30,7 @@ export default function FavoritesDrawer() {
         position="absolute"
         top={15}
         right={15}
+        paddingLeft="0.5rem"
         ref={btnRef}
         colorScheme="teal"
         onClick={() => {
@@ -40,12 +41,14 @@ export default function FavoritesDrawer() {
         <Star style={{ marginRight: 5, fill: "yellow" }} />
         Favorites
         <Badge
-          borderRadius="full"
           variant="solid"
           position="absolute"
           top={-8}
           right={-8}
           height={4}
+          paddingX="0.3rem"
+          borderRadius="full"
+          variantColor="teal"
         >
           {favoriteLaunches.length + favoriteLaunchPads.length}
         </Badge>
