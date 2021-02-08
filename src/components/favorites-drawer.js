@@ -47,12 +47,13 @@ export default function FavoritesDrawer() {
           <Badge
             variant="solid"
             position="absolute"
-            top={-8}
+            top={-10}
             right={-8}
-            height={4}
+            height={5}
             paddingX="0.3rem"
             borderRadius="full"
             variantColor="teal"
+            fontSize="md"
           >
             {launchCount + launchPadCount}
           </Badge>
@@ -66,7 +67,7 @@ export default function FavoritesDrawer() {
         placement="right"
         onClose={onClose}
         finalFocusRef={btnRef}
-        size="sm"
+        size="md"
         scrollBehavior="inside"
         closeOnEsc={true}
       >
