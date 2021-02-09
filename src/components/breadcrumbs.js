@@ -4,7 +4,7 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   Box,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { ChevronsRight } from "react-feather";
 
@@ -13,7 +13,7 @@ export default function Breadcrumbs({ items }) {
     <Breadcrumb
       m="6"
       spacing="1"
-      separator={<Box size="1em" as={ChevronsRight} color="gray.300" />}
+      separator={<Box boxSize="1em" as={ChevronsRight} color="gray.300" />}
     >
       {items.map((item, index) => {
         const isCurrentPage = items.length === index + 1;

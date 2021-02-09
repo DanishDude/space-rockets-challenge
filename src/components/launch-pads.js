@@ -1,5 +1,5 @@
 import React from "react";
-import { Badge, Box, SimpleGrid, Text } from "@chakra-ui/core";
+import { Badge, Box, SimpleGrid, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 import Breadcrumbs from "./breadcrumbs";
@@ -50,6 +50,7 @@ export function LaunchPadItem({ launchPad }) {
   const isLiked = state.favoriteLaunchPads
     .map((launchPad) => launchPad.id)
     .includes(launchPad.id);
+
   return (
     <Box
       boxShadow="md"
@@ -62,11 +63,11 @@ export function LaunchPadItem({ launchPad }) {
         <Box p="6">
           <Box d="flex" alignItems="baseline">
             {launchPad.status === "active" ? (
-              <Badge px="2" variant="solid" variantColor="green">
+              <Badge px="2" variant="solid" colorScheme="green">
                 Active
               </Badge>
             ) : (
-              <Badge px="2" variant="solid" variantColor="red">
+              <Badge px="2" variant="solid" colorScheme="red">
                 Retired
               </Badge>
             )}
@@ -102,9 +103,10 @@ export function LaunchPadItem({ launchPad }) {
         bottom={5}
         right={5}
         size={6}
-        isLiked={isLiked}
-        like={() => likeLaunchPad(launchPad)}
-        unlike={() => unlikeLaunchPad(launchPad.id)}
+        isliked={isLiked ? 1 : 0}
+        onClick={() =>
+          isLiked ? unlikeLaunchPad(launchPad.id) : likeLaunchPad(launchPad)
+        }
       />
     </Box>
   );

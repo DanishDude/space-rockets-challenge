@@ -3,7 +3,7 @@ import { Layers, MapPin, Navigation, Watch } from "react-feather";
 import { Link as RouterLink, useParams } from "react-router-dom";
 import { format as timeAgo } from "timeago.js";
 import {
-  AspectRatioBox,
+  AspectRatio,
   Badge,
   Box,
   Flex,
@@ -20,7 +20,7 @@ import {
   StatNumber,
   Text,
   Tooltip,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 
 import Breadcrumbs from "./breadcrumbs";
 import Error from "./error";
@@ -100,9 +100,10 @@ function Header({ launch }) {
         right={5}
         w={8}
         h={8}
-        isLiked={isLiked}
-        like={() => likeLaunch(launch)}
-        unlike={() => unlikeLaunch(launch.flight_number)}
+        isliked={isLiked ? 1 : 0}
+        onClick={() =>
+          isLiked ? unlikeLaunch(launch.flight_number) : likeLaunch(launch)
+        }
       />
       <Heading
         color="white"
@@ -116,15 +117,15 @@ function Header({ launch }) {
         {launch.mission_name}
       </Heading>
       <Stack isInline spacing="3">
-        <Badge variantColor="purple" fontSize={["xs", "md"]}>
+        <Badge colorScheme="purple" fontSize={["xs", "md"]}>
           #{launch.flight_number}
         </Badge>
         {launch.launch_success ? (
-          <Badge variantColor="green" fontSize={["xs", "md"]}>
+          <Badge colorScheme="green" fontSize={["xs", "md"]}>
             Successful
           </Badge>
         ) : (
-          <Badge variantColor="red" fontSize={["xs", "md"]}>
+          <Badge colorScheme="red" fontSize={["xs", "md"]}>
             Failed
           </Badge>
         )}
@@ -239,14 +240,14 @@ function RocketInfo({ launch }) {
 
 function Video({ launch }) {
   return (
-    <AspectRatioBox maxH="400px" ratio={1.7}>
+    <AspectRatio maxH="400px" ratio={1.7}>
       <Box
         as="iframe"
         title={launch.mission_name}
         src={`https://www.youtube.com/embed/${launch.links.youtube_id}`}
         allowFullScreen
       />
-    </AspectRatioBox>
+    </AspectRatio>
   );
 }
 

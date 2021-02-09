@@ -2,20 +2,20 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { MapPin, Navigation } from "react-feather";
 import {
+  AspectRatio,
+  Badge,
+  Box,
   Flex,
   Heading,
-  Badge,
+  SimpleGrid,
+  Spinner,
+  Stack,
   Stat,
   StatLabel,
   StatNumber,
   StatHelpText,
-  SimpleGrid,
-  Box,
   Text,
-  Spinner,
-  Stack,
-  AspectRatioBox,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 
 import { useSpaceX } from "../utils/use-space-x";
 import Breadcrumbs from "./breadcrumbs";
@@ -95,9 +95,10 @@ function Header({ launchPad }) {
         right={5}
         w={8}
         h={8}
-        isLiked={isLiked}
-        like={() => likeLaunchPad(launchPad)}
-        unlike={() => unlikeLaunchPad(launchPad.id)}
+        isliked={isLiked ? 1 : 0}
+        onClick={() =>
+          isLiked ? unlikeLaunchPad(launchPad.id) : likeLaunchPad(launchPad)
+        }
       />
       <Heading
         color="gray.900"
@@ -110,16 +111,16 @@ function Header({ launchPad }) {
         {launchPad.site_name_long}
       </Heading>
       <Stack isInline spacing="3">
-        <Badge variantColor="purple" fontSize={["sm", "md"]}>
+        <Badge colorScheme="purple" fontSize={["sm", "md"]}>
           {launchPad.successful_launches}/{launchPad.attempted_launches}{" "}
           successful
         </Badge>
         {launchPad.stats === "active" ? (
-          <Badge variantColor="green" fontSize={["sm", "md"]}>
+          <Badge colorScheme="green" fontSize={["sm", "md"]}>
             Active
           </Badge>
         ) : (
-          <Badge variantColor="red" fontSize={["sm", "md"]}>
+          <Badge colorScheme="red" fontSize={["sm", "md"]}>
             Retired
           </Badge>
         )}
@@ -158,13 +159,13 @@ function LocationAndVehicles({ launchPad }) {
 
 function Map({ location }) {
   return (
-    <AspectRatioBox ratio={16 / 5}>
+    <AspectRatio ratio={16 / 5}>
       <Box
         as="iframe"
         src={`https://maps.google.com/maps?q=${location.latitude}, ${location.longitude}&z=15&output=embed`}
         alt="demo"
       />
-    </AspectRatioBox>
+    </AspectRatio>
   );
 }
 
