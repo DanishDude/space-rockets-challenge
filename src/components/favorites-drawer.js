@@ -2,7 +2,7 @@ import React from "react";
 import {
   Accordion,
   AccordionItem,
-  AccordionHeader,
+  AccordionButton,
   AccordionPanel,
   AccordionIcon,
   Badge,
@@ -17,7 +17,7 @@ import {
   Text,
   useDisclosure,
   SimpleGrid,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { Star } from "react-feather";
 
 import FavoritesContext from "../context/favorites-context";
@@ -47,12 +47,12 @@ export default function FavoritesDrawer() {
           <Badge
             variant="solid"
             position="absolute"
-            top={-10}
-            right={-8}
+            top={-2}
+            right={-2}
             height={5}
             paddingX="0.3rem"
             borderRadius="full"
-            variantColor="teal"
+            colorScheme="teal"
             fontSize="md"
           >
             {launchCount + launchPadCount}
@@ -90,12 +90,14 @@ export default function FavoritesDrawer() {
                   {launchCount ? (
                     <AccordionItem>
                       <h2>
-                        <AccordionHeader>
+                        <AccordionButton
+                          _expanded={{ bg: "teal", color: "white" }}
+                        >
                           <Box flex="1" textAlign="left">
                             Launches ({launchCount})
                           </Box>
                           <AccordionIcon />
-                        </AccordionHeader>
+                        </AccordionButton>
                       </h2>
                       <AccordionPanel>
                         <SimpleGrid columns={1} spacing={10}>
@@ -115,12 +117,14 @@ export default function FavoritesDrawer() {
                   {launchPadCount ? (
                     <AccordionItem>
                       <h2>
-                        <AccordionHeader>
+                        <AccordionButton
+                          _expanded={{ bg: "teal", color: "white" }}
+                        >
                           <Box flex="1" textAlign="left">
                             Launch Pads ({launchPadCount})
                           </Box>
                           <AccordionIcon />
-                        </AccordionHeader>
+                        </AccordionButton>
                       </h2>
                       <AccordionPanel>
                         <SimpleGrid columns={1} spacing={10}>
