@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { Box, Flex, SimpleGrid, Text, useColorMode } from "@chakra-ui/react";
+import { Flex, SimpleGrid, Text, useColorMode } from "@chakra-ui/react";
 
 import ColorMode from "./color-mode";
 import FavoritesDrawer from "./favorites-drawer";
