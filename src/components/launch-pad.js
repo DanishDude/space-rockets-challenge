@@ -56,7 +56,7 @@ export default function LaunchPad() {
       <Header launchPad={launchPad} />
       <Box m={[3, 6]}>
         <LocationAndVehicles launchPad={launchPad} />
-        <Text color="gray.700" fontSize={["md", null, "lg"]} my="8">
+        <Text fontSize={["md", null, "lg"]} my="8">
           {launchPad.details}
         </Text>
         <Map location={launchPad.location} />
