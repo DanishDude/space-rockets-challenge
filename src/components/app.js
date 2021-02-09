@@ -1,19 +1,20 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, SimpleGrid, Text, useColorMode } from "@chakra-ui/react";
 
-import Launches from "./launches";
-import Launch from "./launch";
-import Home from "./home";
-import LaunchPads from "./launch-pads";
-import LaunchPad from "./launch-pad";
+import ColorMode from "./color-mode";
 import FavoritesDrawer from "./favorites-drawer";
+import Home from "./home";
+import Launch from "./launch";
+import Launches from "./launches";
+import LaunchPad from "./launch-pad";
+import LaunchPads from "./launch-pads";
 
 export default function App() {
   return (
     <div>
       <NavBar />
-      <FavoritesDrawer />
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/launches" element={<Launches />} />
@@ -26,6 +27,7 @@ export default function App() {
 }
 
 function NavBar() {
+  const { colorMode } = useColorMode();
   return (
     <Flex
       as="nav"
@@ -33,9 +35,20 @@ function NavBar() {
       justify="space-between"
       wrap="wrap"
       padding="6"
-      bg="gray.800"
+      bg={colorMode === "light" ? "gray.800" : "gray.900"}
       color="white"
     >
+      <SimpleGrid
+        pos="absolute"
+        top={4}
+        right={6}
+        d="flex"
+        spacing={4}
+        color={colorMode === "light" ? "blackAlpha.900" : ""}
+      >
+        <ColorMode />
+        <FavoritesDrawer />
+      </SimpleGrid>
       <Text
         fontFamily="mono"
         letterSpacing="2px"
