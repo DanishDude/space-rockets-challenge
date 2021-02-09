@@ -13,7 +13,7 @@ export default function Breadcrumbs({ items }) {
     <Breadcrumb
       m="6"
       spacing="1"
-      separator={<Box boxSize="1em" as={ChevronsRight} color="gray.300" />}
+      separator={<Box boxSize="1em" as={ChevronsRight} />}
     >
       {items.map((item, index) => {
         const isCurrentPage = items.length === index + 1;

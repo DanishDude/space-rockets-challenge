@@ -33,14 +33,7 @@ export default function FavoritesDrawer() {
 
   return (
     <>
-      <Button
-        position="absolute"
-        top={15}
-        right={29}
-        paddingLeft="0.5rem"
-        ref={btnRef}
-        onClick={onOpen}
-      >
+      <Button ref={btnRef} onClick={onOpen}>
         <Star style={{ marginRight: 5, fill: "yellow" }} />
         Favorites
         {launchCount + launchPadCount ? (

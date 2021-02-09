@@ -55,7 +55,7 @@ export default function Launch() {
       <Box m={[3, 6]}>
         <TimeAndLocation launch={launch} />
         <RocketInfo launch={launch} />
-        <Text color="gray.700" fontSize={["md", null, "lg"]} my="8">
+        <Text fontSize={["md", null, "lg"]} my="8">
           {launch.details}
         </Text>
         <Video launch={launch} />
