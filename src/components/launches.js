@@ -109,7 +109,7 @@ function LaunchSearch({ setOptions }) {
         <FormControl>
           <FormLabel>Launch Site</FormLabel>
           <Select
-            w={350}
+            w={360}
             placeholder=" "
             onChange={(e) =>
               e.target.value
@@ -135,6 +135,43 @@ function LaunchSearch({ setOptions }) {
             <option value="VAFB SLC 3W">
               Vandenberg Complex 3W (VAFB SLC 3W)
             </option>
+          </Select>
+        </FormControl>
+      </WrapItem>
+      <WrapItem>
+        <FormControl>
+          <FormLabel>Rocket</FormLabel>
+          <Select
+            w={250}
+            placeholder=" "
+            onChange={(e) =>
+              setQuery({ ...query, rocket_name: e.target.value })
+            }
+          >
+            <option value="Falcon 1">Falcon 1</option>
+            <option value="Falcon 9">Falcon 9</option>
+            <option value="Falcon Heavy">Falcon Heavy</option>
+            <option value="Starship">Starship</option>
+          </Select>
+        </FormControl>
+      </WrapItem>
+      <WrapItem>
+        <FormControl>
+          <FormLabel>Launch Success</FormLabel>
+          <Select
+            w={250}
+            placeholder=" "
+            onChange={(e) =>
+              e.target.value
+                ? setQuery({ ...query, launch_success: e.target.value })
+                : setQuery({ ...query, launch_success: "" })
+            }
+          >
+            <option selected value="">
+              All
+            </option>
+            <option value={true}>Success</option>
+            <option value={false}>Failed</option>
           </Select>
         </FormControl>
       </WrapItem>
