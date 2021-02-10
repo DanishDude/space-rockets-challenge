@@ -19,7 +19,7 @@ import { format as timeAgo } from "timeago.js";
 import { Link } from "react-router-dom";
 
 import { useSpaceXPaginated } from "../utils/use-space-x";
-import { formatDate } from "../utils/format-date";
+import { todaysDate, formatDate } from "../utils/format-date";
 import Error from "./error";
 import Breadcrumbs from "./breadcrumbs";
 import LikeIcon from "./like-icon";
@@ -67,15 +67,11 @@ export default function Launches() {
 
 function LaunchSearch({ setOptions }) {
   const [query, setQuery] = React.useState({});
-  const minDate = "2006-01-01";
-  const maxDate = () => {
-    let d = new Date();
-    return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
-  };
+  const minDate = "2006-03-24";
 
   function handleSelect(key, value) {
     value === "All"
-      ? setQuery({ ...query, key: "" })
+      ? setQuery({ ...query, [key]: "" })
       : setQuery({ ...query, [key]: value });
   }
 
@@ -92,21 +88,21 @@ function LaunchSearch({ setOptions }) {
               w={180}
               type="date"
               min={minDate}
-              max={maxDate()}
+              max={todaysDate()}
               onChange={(e) =>
-                setQuery({ end: maxDate(), ...query, start: e.target.value })
+                setQuery({ end: todaysDate(), ...query, start: e.target.value })
               }
             />
           </FormControl>
         </WrapItem>
         <WrapItem m={3}>
-          <FormControl>
+          <FormControl id="fromDate">
             <FormLabel>To</FormLabel>
             <Input
               w={180}
               type="date"
               min={minDate}
-              max={maxDate()}
+              max={todaysDate()}
               onChange={(e) =>
                 setQuery({ start: minDate, ...query, end: e.target.value })
               }
