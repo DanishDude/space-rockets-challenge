@@ -6,13 +6,11 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  FormErrorMessage,
-  FormHelperText,
+  Heading,
   Image,
   Input,
   Select,
   SimpleGrid,
-  Stack,
   Text,
   Wrap,
   WrapItem,
@@ -75,112 +73,107 @@ function LaunchSearch({ setOptions }) {
     return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
   };
 
+  function handleSelect(key, value) {
+    value === "All"
+      ? setQuery({ ...query, key: "" })
+      : setQuery({ ...query, [key]: value });
+  }
+
   return (
-    <Wrap marginX={6} justify="center">
-      <WrapItem>
-        <FormControl id="start">
-          <FormLabel>From</FormLabel>
-          <Input
-            w={180}
-            type="date"
-            min={minDate}
-            max={maxDate()}
-            onChange={(e) =>
-              setQuery({ end: maxDate(), ...query, start: e.target.value })
-            }
-          />
-        </FormControl>
-      </WrapItem>
-      <WrapItem>
-        <FormControl id="end">
-          <FormLabel>To</FormLabel>
-          <Input
-            w={180}
-            type="date"
-            min={minDate}
-            max={maxDate()}
-            onChange={(e) =>
-              setQuery({ start: minDate, ...query, end: e.target.value })
-            }
-          />
-        </FormControl>
-      </WrapItem>
-      <WrapItem>
-        <FormControl>
-          <FormLabel>Launch Site</FormLabel>
-          <Select
-            w={360}
-            placeholder=" "
-            onChange={(e) =>
-              e.target.value
-                ? setQuery({
-                    start: minDate,
-                    ...query,
-                    site_name: e.target.value,
-                  })
-                : ""
-            }
-          >
-            <option value="KSC LC 39A">
-              Kennedy Space Center (KSC LC 39A)
-            </option>
-            <option value="Kwajalein Atoll">
-              Kwajalein Atoll Omelek Island
-            </option>
-            <option value="CCAFS SLC 40">Cape Canaveral (CCAFS SLC 40)</option>
-            <option value="VAFB SLC 4E">
-              Vandenberg Complex 4E (VAFB SLC 4E)
-            </option>
-            <option value="STLS">SpaceX South Texas (STLS)</option>
-            <option value="VAFB SLC 3W">
-              Vandenberg Complex 3W (VAFB SLC 3W)
-            </option>
-          </Select>
-        </FormControl>
-      </WrapItem>
-      <WrapItem>
-        <FormControl>
-          <FormLabel>Rocket</FormLabel>
-          <Select
-            w={250}
-            placeholder=" "
-            onChange={(e) =>
-              setQuery({ ...query, rocket_name: e.target.value })
-            }
-          >
-            <option value="Falcon 1">Falcon 1</option>
-            <option value="Falcon 9">Falcon 9</option>
-            <option value="Falcon Heavy">Falcon Heavy</option>
-            <option value="Starship">Starship</option>
-          </Select>
-        </FormControl>
-      </WrapItem>
-      <WrapItem>
-        <FormControl>
-          <FormLabel>Launch Success</FormLabel>
-          <Select
-            w={250}
-            placeholder=" "
-            onChange={(e) =>
-              e.target.value
-                ? setQuery({ ...query, launch_success: e.target.value })
-                : setQuery({ ...query, launch_success: "" })
-            }
-          >
-            <option selected value="">
-              All
-            </option>
-            <option value={true}>Success</option>
-            <option value={false}>Failed</option>
-          </Select>
-        </FormControl>
-      </WrapItem>
-      <Box p={4} w="100%" d="flex" justifyContent="center">
-        <Button w={150} onClick={() => setOptions(query)}>
-          Search
-        </Button>
-      </Box>
-    </Wrap>
+    <Box>
+      <Heading m={4} textAlign="center" fontFamily="mono">
+        Search Past Launches
+      </Heading>
+      <Wrap marginX={6} justify="center">
+        <WrapItem m={3}>
+          <FormControl>
+            <FormLabel>From</FormLabel>
+            <Input
+              w={180}
+              type="date"
+              min={minDate}
+              max={maxDate()}
+              onChange={(e) =>
+                setQuery({ end: maxDate(), ...query, start: e.target.value })
+              }
+            />
+          </FormControl>
+        </WrapItem>
+        <WrapItem m={3}>
+          <FormControl>
+            <FormLabel>To</FormLabel>
+            <Input
+              w={180}
+              type="date"
+              min={minDate}
+              max={maxDate()}
+              onChange={(e) =>
+                setQuery({ start: minDate, ...query, end: e.target.value })
+              }
+            />
+          </FormControl>
+        </WrapItem>
+        <WrapItem m={3}>
+          <FormControl>
+            <FormLabel>Launch Site</FormLabel>
+            <Select
+              w={360}
+              defaultValue="All"
+              onChange={(e) => handleSelect("site_name", e.target.value)}
+            >
+              <option value="All">All</option>
+              <option value="CCAFS SLC 40">
+                Cape Canaveral (CCAFS SLC 40)
+              </option>
+              <option value="KSC LC 39A">
+                Kennedy Space Center (KSC LC 39A)
+              </option>
+              <option value="Kwajalein Atoll">
+                Kwajalein Atoll Omelek Island
+              </option>
+              <option value="VAFB SLC 4E">
+                Vandenberg Complex 4E (VAFB SLC 4E)
+              </option>
+            </Select>
+          </FormControl>
+        </WrapItem>
+        <WrapItem m={3}>
+          <FormControl>
+            <FormLabel>Rocket</FormLabel>
+            <Select
+              w={250}
+              defaultValue="All"
+              onChange={(e) => handleSelect("rocket_name", e.target.value)}
+            >
+              <option value="All">All</option>
+              <option value="Falcon 1">Falcon 1</option>
+              <option value="Falcon 9">Falcon 9</option>
+              <option value="Falcon Heavy">Falcon Heavy</option>
+              <option value="Starship">Starship</option>
+            </Select>
+          </FormControl>
+        </WrapItem>
+        <WrapItem m={3}>
+          <FormControl>
+            <FormLabel>Launch Success</FormLabel>
+            <Select
+              w={250}
+              defaultValue="All"
+              onChange={(e) => handleSelect("launch_success", e.target.value)}
+            >
+              <option value="All">All</option>
+              <option value={true}>Successful</option>
+              <option value={false}>Failed</option>
+            </Select>
+          </FormControl>
+        </WrapItem>
+        <Box m={6} w="100%" d="flex" justifyContent="center">
+          <Button w={150} colorScheme="teal" onClick={() => setOptions(query)}>
+            Search
+          </Button>
+        </Box>
+      </Wrap>
+    </Box>
   );
 }
 
