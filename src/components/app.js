@@ -14,7 +14,6 @@ export default function App() {
   return (
     <div>
       <NavBar />
-
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/launches" element={<Launches />} />

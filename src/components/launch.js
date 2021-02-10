@@ -88,7 +88,7 @@ function Header({ launch }) {
       <Image
         position="absolute"
         top="5"
-        right="5"
+        right="12"
         src={launch.links.mission_patch_small}
         height={["85px", "150px"]}
         objectFit="contain"

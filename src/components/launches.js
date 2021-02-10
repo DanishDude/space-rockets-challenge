@@ -1,10 +1,25 @@
 import React from "react";
-import { Badge, Box, Image, SimpleGrid, Text, Flex } from "@chakra-ui/react";
+import {
+  Badge,
+  Box,
+  Button,
+  Flex,
+  FormControl,
+  FormLabel,
+  Heading,
+  Image,
+  Input,
+  Select,
+  SimpleGrid,
+  Text,
+  Wrap,
+  WrapItem,
+} from "@chakra-ui/react";
 import { format as timeAgo } from "timeago.js";
 import { Link } from "react-router-dom";
 
 import { useSpaceXPaginated } from "../utils/use-space-x";
-import { formatDate } from "../utils/format-date";
+import { todaysDate, formatDate } from "../utils/format-date";
 import Error from "./error";
 import Breadcrumbs from "./breadcrumbs";
 import LikeIcon from "./like-icon";
@@ -14,19 +29,23 @@ import FavoritesContext from "../context/favorites-context";
 const PAGE_SIZE = 12;
 
 export default function Launches() {
+  const [options, setOptions] = React.useState({});
   const { data, error, isValidating, setSize, size } = useSpaceXPaginated(
     "/launches/past",
     {
       limit: PAGE_SIZE,
       order: "desc",
       sort: "launch_date_utc",
+      ...options,
     }
   );
+
   return (
     <div>
       <Breadcrumbs
         items={[{ label: "Home", to: "/" }, { label: "Launches" }]}
       />
+      <LaunchSearch setOptions={(opts) => setOptions(opts)} />
       <SimpleGrid m={[2, null, 6]} minChildWidth="350px" spacing="4">
         {error && <Error />}
         {data &&
@@ -43,6 +62,114 @@ export default function Launches() {
         isLoadingMore={isValidating}
       />
     </div>
+  );
+}
+
+function LaunchSearch({ setOptions }) {
+  const [query, setQuery] = React.useState({});
+  const minDate = "2006-03-24";
+
+  function handleSelect(key, value) {
+    value === "All"
+      ? setQuery({ ...query, [key]: "" })
+      : setQuery({ ...query, [key]: value });
+  }
+
+  return (
+    <Box>
+      <Heading m={4} textAlign="center" fontFamily="mono">
+        Search Past Launches
+      </Heading>
+      <Wrap marginX={6} justify="center">
+        <WrapItem m={3}>
+          <FormControl>
+            <FormLabel>From</FormLabel>
+            <Input
+              w={180}
+              type="date"
+              min={minDate}
+              max={todaysDate()}
+              onChange={(e) =>
+                setQuery({ end: todaysDate(), ...query, start: e.target.value })
+              }
+            />
+          </FormControl>
+        </WrapItem>
+        <WrapItem m={3}>
+          <FormControl id="fromDate">
+            <FormLabel>To</FormLabel>
+            <Input
+              w={180}
+              type="date"
+              min={minDate}
+              max={todaysDate()}
+              onChange={(e) =>
+                setQuery({ start: minDate, ...query, end: e.target.value })
+              }
+            />
+          </FormControl>
+        </WrapItem>
+        <WrapItem m={3}>
+          <FormControl>
+            <FormLabel>Launch Site</FormLabel>
+            <Select
+              w={360}
+              defaultValue="All"
+              onChange={(e) => handleSelect("site_name", e.target.value)}
+            >
+              <option value="All">All</option>
+              <option value="CCAFS SLC 40">
+                Cape Canaveral (CCAFS SLC 40)
+              </option>
+              <option value="KSC LC 39A">
+                Kennedy Space Center (KSC LC 39A)
+              </option>
+              <option value="Kwajalein Atoll">
+                Kwajalein Atoll Omelek Island
+              </option>
+              <option value="VAFB SLC 4E">
+                Vandenberg Complex 4E (VAFB SLC 4E)
+              </option>
+            </Select>
+          </FormControl>
+        </WrapItem>
+        <WrapItem m={3}>
+          <FormControl>
+            <FormLabel>Rocket</FormLabel>
+            <Select
+              w={250}
+              defaultValue="All"
+              onChange={(e) => handleSelect("rocket_name", e.target.value)}
+            >
+              <option value="All">All</option>
+              <option value="Falcon 1">Falcon 1</option>
+              <option value="Falcon 9">Falcon 9</option>
+              <option value="Falcon Heavy">Falcon Heavy</option>
+              <option value="Starship">Starship</option>
+            </Select>
+          </FormControl>
+        </WrapItem>
+        <WrapItem m={3}>
+          <FormControl>
+            <FormLabel>Launch Success</FormLabel>
+            <Select
+              w={250}
+              defaultValue="All"
+              onChange={(e) => handleSelect("launch_success", e.target.value)}
+            >
+              <option value="All">All</option>
+              <option value={true}>Successful</option>
+              <option value={false}>Failed</option>
+            </Select>
+          </FormControl>
+        </WrapItem>
+        <Box m={6} w="100%" d="flex" justifyContent="center">
+          <Button w={150} colorScheme="teal" onClick={() => setOptions(query)}>
+            Search
+          </Button>
+        </Box>
+      </Wrap>
+    </Box>
   );
 }
 
